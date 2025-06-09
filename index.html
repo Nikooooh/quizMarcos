@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TRL - Technology Readiness Levels</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f3f3f3;
+        margin: 0;
+        padding: 0;
+      }
+
+      .topbar {
+        background: white;
+        padding: 30px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        height: 30px;
+      }
+
+      .menu a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 40px;
+      }
+
+      .left {
+        flex: 1;
+      }
+
+      .left h2 {
+        margin-top: 0;
+      }
+
+      .left p {
+        font-size: 15px;
+        color: #444;
+      }
+
+      .btn-avaliar {
+        margin-top: 20px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .right {
+        width: 300px; /* Aumentado 3x */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .right button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 15px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .right button:hover {
+        background: #45a049;
+      }
+
+      .info-box {
+        margin-top: 20px;
+        background: #e8f5e9;
+        border-left: 5px solid #4caf50;
+        padding: 20px;
+        border-radius: 5px;
+        display: none;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="logo">
+        <strong>MATURITEC IFES</strong>
+      </div>
+      <div class="menu">
+        <a href="#">Início</a>
+        <a href="#">Sobre</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="left">
+        <h2>TRL – Technology Readiness Levels</h2>
+        <p><strong>O que é o TRL?</strong></p>
+        <p>
+          O TRL é uma métrica que indica o nível de maturidade de uma
+          tecnologia, com níveis que variam de 1 a 9.
+        </p>
+        <button class="btn-avaliar">AVALIAR</button>
+        <div class="info-box" id="infoBox"></div>
+      </div>
+      <div class="right">
+        <button onclick="showInfo(1)">1</button>
+        <button onclick="showInfo(2)">2</button>
+        <button onclick="showInfo(3)">3</button>
+        <button onclick="showInfo(4)">4</button>
+        <button onclick="showInfo(5)">5</button>
+        <button onclick="showInfo(6)">6</button>
+        <button onclick="showInfo(7)">7</button>
+        <button onclick="showInfo(8)">8</button>
+        <button onclick="showInfo(9)">9</button>
+      </div>
+    </div>
+
+    <script>
+      const textos = {
+        1: "Ideia estruturada: A tecnologia existe apenas no papel, mas com uma explicação clara de como ela funcionaria. A proposta é coerente, inovadora e tem base teórica.",
+        2: "Conceito inicial avaliado: O conceito já foi avaliado quanto à sua viabilidade. Mesmo que ainda não tenha testes, há uma lógica convincente por trás e talvez até uma análise teórica ou simulação.",
+        3: "Prova de conceito validada: A ideia já foi testada em laboratório, com pequenos experimentos ou protótipos simples mostrando que ela funciona — pelo menos em condições controladas.",
+        4: "Componentes testados em laboratório: As partes básicas da tecnologia já foram testadas separadamente em laboratório. Ainda não está tudo junto, mas cada “pedaço” já foi validado com sucesso.",
+        5: "Protótipo funcional em escala reduzida: Um protótipo da tecnologia foi construído e está sendo testado em uma escala menor, como uma planta piloto. Ele mostra como a solução funcionaria na prática.",
+        6: "Integração em funcionamento: A tecnologia já está operando como um sistema integrado. Ela ainda pode estar em ambiente de teste, mas já produz resultados reais, ainda que iniciais.",
+        7: "Testes no mundo real: A solução está sendo usada em campo ou em ambiente real. Os testes focam em ajustar detalhes e identificar problemas práticos antes de colocar no mercado.",
+        8: "Tecnologia pronta para o mercado: A tecnologia já está refinada e testada. Tem comprovação técnica e também já foi avaliada economicamente, mostrando que é viável produzir e comercializar.",
+        9: "Tecnologia em operação de mercado: A solução está de fato sendo usada comercialmente, com clientes reais e produção final. Já gera impacto e está inserida no mercado com sucesso.",
+      };
+
+      function showInfo(nivel) {
+        const box = document.getElementById("infoBox");
+        box.style.display = "block";
+        box.innerText = textos[nivel];
+      }
+    </script>
+  </body>
+</html>
