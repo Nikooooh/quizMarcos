@@ -50,15 +50,15 @@
 
     <script>
       const perguntas = [
-        "1. Já foi feita uma pesquisa aprofundada sobre o que a ciência diz a respeito dessa tecnologia? Os conceitos e fundamentos estão bem consolidados?",
-        "2. Mesmo que ainda seja uma ideia inicial, existem estudos, artigos ou documentos que mostram que essa tecnologia pode funcionar na prática?",
-        "3. Foram feitos testes em laboratório ou ambiente controlado para verificar se a tecnologia funciona como o esperado? Os resultados desses testes estão registrados e documentados?",
-        "4. Foram feitos testes em laboratório ou ambiente controlado para validar a tecnologia de forma aplicada em seu produto tecnológico? Os resultados desses testes estão registrados e documentados?",
-        "5. Já foram integradas as partes principais da tecnologia em​ um modelo, simulação ou mínimo produto viável, mesmo que ainda não seja o produto final?",
-        "6. Um protótipo funcional já foi testado em laboratório ou ambiente controlado? Os resultados mostram que ele atende aos requisitos técnicos básicos, como desempenho e tamanho?",
-        "7. A tecnologia já foi demonstrada em um ambiente que simula as condições reais de uso? Existe documentação técnica sobre esses testes?",
-        "8. A versão final da tecnologia já foi testada em condições reais de mercado? Os resultados mostram que ela funciona como o esperado?",
-        "9. A tecnologia já foi colocada para funcionar no ambiente real onde será usada? O produto tecnológico já se encontra em uso no mercado?",
+        " Já foi feita uma pesquisa aprofundada sobre o que a ciência diz a respeito dessa tecnologia? Os conceitos e fundamentos estão bem consolidados?",
+        " Mesmo que ainda seja uma ideia inicial, existem estudos, artigos ou documentos que mostram que essa tecnologia pode funcionar na prática?",
+        " Foram feitos testes em laboratório ou ambiente controlado para verificar se a tecnologia funciona como o esperado? Os resultados desses testes estão registrados e documentados?",
+        " Foram feitos testes em laboratório ou ambiente controlado para validar a tecnologia de forma aplicada em seu produto tecnológico? Os resultados desses testes estão registrados e documentados?",
+        " Já foram integradas as partes principais da tecnologia em​ um modelo, simulação ou mínimo produto viável, mesmo que ainda não seja o produto final?",
+        " Um protótipo funcional já foi testado em laboratório ou ambiente controlado? Os resultados mostram que ele atende aos requisitos técnicos básicos, como desempenho e tamanho?",
+        " A tecnologia já foi demonstrada em um ambiente que simula as condições reais de uso? Existe documentação técnica sobre esses testes?",
+        " A versão final da tecnologia já foi testada em condições reais de mercado? Os resultados mostram que ela funciona como o esperado?",
+        " A tecnologia já foi colocada para funcionar no ambiente real onde será usada? O produto tecnológico já se encontra em uso no mercado?",
       ];
 
       const fases = [
@@ -131,6 +131,13 @@
         btnRefazerContainer.classList.add("hidden");
         renderPergunta();
       });
+      // Função para embaralhar o array (algoritmo de Fisher-Yates)
+      function embaralharArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
 
       function mostrarResultado() {
         let faseIndex = respostas.findIndex((resp) => resp === "nao");
@@ -143,7 +150,7 @@
 
         btnRefazerContainer.classList.remove("hidden");
       }
-
+      embaralharArray(perguntas);
       renderPergunta(); // inicia
     </script>
   </body>
