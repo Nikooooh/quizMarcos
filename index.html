@@ -1,166 +1,150 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <title>TRL - Technology Readiness Levels</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        background: #f3f3f3;
-        margin: 0;
-        padding: 0;
-      }
-
-      .topbar {
-        background: white;
-        padding: 30px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #ccc;
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .logo img {
-        height: 30px;
-      }
-
-      .menu a {
-        margin-left: 20px;
-        text-decoration: none;
-        color: #333;
-        font-weight: bold;
-      }
-
-      .container {
-        max-width: 1000px;
-        margin: 40px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        gap: 40px;
-      }
-
-      .left {
-        flex: 1;
-      }
-
-      .left h2 {
-        margin-top: 0;
-      }
-
-      .left p {
-        font-size: 15px;
-        color: #444;
-      }
-
-      .btn-avaliar {
-        margin-top: 20px;
-        background: #4caf50;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .right {
-        width: 300px; /* Aumentado 3x */
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .right button {
-        background: #4caf50;
-        color: white;
-        border: none;
-        padding: 15px;
-        font-size: 18px;
-        cursor: pointer;
-        border-radius: 5px;
-      }
-
-      .right button:hover {
-        background: #45a049;
-      }
-
-      .info-box {
-        margin-top: 20px;
-        background: #e8f5e9;
-        border-left: 5px solid #4caf50;
-        padding: 20px;
-        border-radius: 5px;
-        display: none;
-        font-size: 16px;
-      }
-    </style>
+    <title>Maturidade Tecnológica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div class="topbar">
-      <div class="logo">
-        <strong>MATURITEC IFES</strong>
-      </div>
-      <div class="menu">
-        <a href="#">Início</a>
-        <a href="#">Sobre</a>
-      </div>
-    </div>
+  <body
+    class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6"
+  >
+    <!-- Imagem acima da caixa -->
+    <img
+      src="./ifes.png"
+      alt="Imagem de cabeçalho"
+      class="mb-6 rounded-xl w-48 h-30"
+    />
 
-    <div class="container">
-      <div class="left">
-        <h2>TRL – Technology Readiness Levels</h2>
-        <p><strong>O que é o TRL?</strong></p>
-        <p>
-          O TRL é uma métrica que indica o nível de maturidade de uma
-          tecnologia, com níveis que variam de 1 a 9.
-        </p>
-        <button class="btn-avaliar">AVALIAR</button>
-        <div class="info-box" id="infoBox"></div>
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl">
+      <h1 class="text-3xl font-bold text-center mb-6 text-green-700">
+        Classificação de Maturidade Tecnológica - Maturitec
+      </h1>
+
+      <div id="perguntas-container">
+        <!-- Perguntas serão inseridas aqui dinamicamente -->
       </div>
-      <div class="right">
-        <button onclick="showInfo(1)">1</button>
-        <button onclick="showInfo(2)">2</button>
-        <button onclick="showInfo(3)">3</button>
-        <button onclick="showInfo(4)">4</button>
-        <button onclick="showInfo(5)">5</button>
-        <button onclick="showInfo(6)">6</button>
-        <button onclick="showInfo(7)">7</button>
-        <button onclick="showInfo(8)">8</button>
-        <button onclick="showInfo(9)">9</button>
+
+      <div class="mt-6 text-center">
+        <button
+          id="btn-next"
+          class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-xl"
+        >
+          Próxima
+        </button>
+      </div>
+
+      <div
+        id="resultado"
+        class="mt-8 text-center text-xl font-semibold text-green-600 hidden"
+      ></div>
+
+      <div class="mt-6 text-center hidden" id="btn-refazer-container">
+        <button
+          id="btn-refazer"
+          class="bg-gray-500 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-xl"
+        >
+          Refazer Avaliação
+        </button>
       </div>
     </div>
 
     <script>
-      const textos = {
-        1: "Ideia estruturada: A tecnologia existe apenas no papel, mas com uma explicação clara de como ela funcionaria. A proposta é coerente, inovadora e tem base teórica.",
-        2: "Conceito inicial avaliado: O conceito já foi avaliado quanto à sua viabilidade. Mesmo que ainda não tenha testes, há uma lógica convincente por trás e talvez até uma análise teórica ou simulação.",
-        3: "Prova de conceito validada: A ideia já foi testada em laboratório, com pequenos experimentos ou protótipos simples mostrando que ela funciona — pelo menos em condições controladas.",
-        4: "Componentes testados em laboratório: As partes básicas da tecnologia já foram testadas separadamente em laboratório. Ainda não está tudo junto, mas cada “pedaço” já foi validado com sucesso.",
-        5: "Protótipo funcional em escala reduzida: Um protótipo da tecnologia foi construído e está sendo testado em uma escala menor, como uma planta piloto. Ele mostra como a solução funcionaria na prática.",
-        6: "Integração em funcionamento: A tecnologia já está operando como um sistema integrado. Ela ainda pode estar em ambiente de teste, mas já produz resultados reais, ainda que iniciais.",
-        7: "Testes no mundo real: A solução está sendo usada em campo ou em ambiente real. Os testes focam em ajustar detalhes e identificar problemas práticos antes de colocar no mercado.",
-        8: "Tecnologia pronta para o mercado: A tecnologia já está refinada e testada. Tem comprovação técnica e também já foi avaliada economicamente, mostrando que é viável produzir e comercializar.",
-        9: "Tecnologia em operação de mercado: A solução está de fato sendo usada comercialmente, com clientes reais e produção final. Já gera impacto e está inserida no mercado com sucesso.",
-      };
+      const perguntas = [
+        "1. Já foi feita uma pesquisa aprofundada sobre o que a ciência diz a respeito dessa tecnologia? Os conceitos e fundamentos estão bem consolidados?",
+        "2. Mesmo que ainda seja uma ideia inicial, existem estudos, artigos ou documentos que mostram que essa tecnologia pode funcionar na prática?",
+        "3. Foram feitos testes em laboratório ou ambiente controlado para verificar se a tecnologia funciona como o esperado? Os resultados desses testes estão registrados e documentados?",
+        "4. Foram feitos testes em laboratório ou ambiente controlado para validar a tecnologia de forma aplicada em seu produto tecnológico? Os resultados desses testes estão registrados e documentados?",
+        "5. Já foram integradas as partes principais da tecnologia em​ um modelo, simulação ou mínimo produto viável, mesmo que ainda não seja o produto final?",
+        "6. Um protótipo funcional já foi testado em laboratório ou ambiente controlado? Os resultados mostram que ele atende aos requisitos técnicos básicos, como desempenho e tamanho?",
+        "7. A tecnologia já foi demonstrada em um ambiente que simula as condições reais de uso? Existe documentação técnica sobre esses testes?",
+        "8. A versão final da tecnologia já foi testada em condições reais de mercado? Os resultados mostram que ela funciona como o esperado?",
+        "9. A tecnologia já foi colocada para funcionar no ambiente real onde será usada? O produto tecnológico já se encontra em uso no mercado?",
+      ];
 
-      function showInfo(nivel) {
-        const box = document.getElementById("infoBox");
-        box.style.display = "block";
-        box.innerText = textos[nivel];
+      const fases = [
+        "FASE 1 - Você está na fase inicial, parabéns pela iniciativa! Para avançar ao próximo estágio, recomenda-se realizar uma revisão bibliográfica em bases como Google Acadêmico, Scielo, entre outros meios.  Busque artigos recentes que descrevem os fundamentos da tecnologia. Sistematize os conceitos principais em um documento e organize as fontes como referências. O objetivo é identificar e compreender os princípios científicos e fundamentos teóricos que sustentam a tecnologia em estudo. ",
+        "FASE 2 - Você se encontra na fase inicial do desenvolvimento, mantenha o foco no projeto! Para avançar nos níveis de maturidade tecnológica, recomenda-se a busca por estudos de caso, patentes e provas de conceito em publicações acadêmicas e relatórios técnicos especializados. Utilize palavras-chave específicas e investigue se já existem trabalhos ou soluções similares na sua área de interesse. Isso ajudará a embasar melhor sua proposta e identificar oportunidades de inovação.",
+        "FASE 3 - Muito bem! Para avançar de nível, elabore um experimento simples para validar os princípios básicos da tecnologia proposta. Projete um teste inicial que permita observar os fundamentos em ação, registre detalhadamente todos os procedimentos, materiais utilizados, dados coletados e os resultados obtidos. Organize essas informações em um relatório técnico estruturado, que servirá como base para as próximas etapas de desenvolvimento.Esse é um passo essencial para transformar ideias em soluções concretas!",
+        "FASE 4 - Muito bem, você já fez ótimos avanços! Para chegar ao próximo nível, é necessário aprimorar os testes anteriores para simular de forma mais fiel a aplicação da tecnologia no produto final. Realize ajustes no experimento para refletir as condições reais de uso e defina métricas claras de desempenho, como: eficiência, consumo, tempo de resposta, entre outras relevantes ao contexto. Registre os resultados de forma organizada e sistematizada, utilizando tabelas, gráficos e análises comparativas.  ",
+        "FASE 5 - Você já alcançou um nível importante de desenvolvimento, excelente progresso! Agora é o momento de construir um MVP (Produto Mínimo Viável), incorporando os componentes essenciais da tecnologia. Utilize ferramentas apropriadas, como softwares de modelagem (CAD, Figma) ou kits de prototipagem rápida (Arduino, Raspberry Pi, entre outros), para representar a solução de forma funcional e visual.",
+        "FASE 6 - Ótimo, você alcançou um nível avançado!Para progredir ainda mais, construa um protótipo físico ou digital da solução e defina critérios técnicos mínimos de desempenho que ele deve atender (como precisão, tempo de resposta, consumo, entre outros).Realize testes em ambientes controlados e registre cuidadosamente os resultados em laudos ou relatórios técnicos bem estruturados.Essa etapa é essencial para validar a funcionalidade da tecnologia e garantir sua confiabilidade antes da aplicação em escala real. ",
+        "FASE 7 -  Excelente, você está em um nível avançado de desenvolvimento! Essa etapa é crucial para validar a robustez da solução em contextos práticos. Identifique um ambiente de teste que reproduza, com a maior fidelidade possível, as condições reais de uso da tecnologia. Realize os ensaios necessários nesse cenário e documente de forma rigorosa os resultados obtidos, incluindo o desempenho observado, eventuais falhas e os ajustes implementados. ",
+        "FASE 8 - Parabéns, você está muito próximo da fase final do desenvolvimento!Para atingir o próximo e último nível, é essencial organizar um projeto-piloto envolvendo usuários reais, empresas parceiras ou clientes-alvo.Monitore atentamente a aplicação da tecnologia em campo, coletando feedback técnico e de usabilidade de forma sistemática.Por fim, compare os resultados obtidos com os requisitos definidos nas fases iniciais, avaliando o alinhamento entre a solução desenvolvida e as demandas reais do mercado.",
+        "FASE 9 - Parabéns! Você alcançou o nível mais avançado de maturidade tecnológica, seu projeto está prestes a ser implementado no mercado. Agora, é fundamental elaborar um plano de implantação estruturado, definindo cronograma, equipe responsável e métricas de sucesso.Realize o lançamento controlado da solução para um grupo restrito de usuários ou clientes estratégicos, e monitore cuidadosamente dados de desempenho, aceitação e impacto gerado.Esses resultados serão essenciais para validar a escalabilidade da tecnologia e orientar os próximos passos rumo à consolidação no mercado.",
+      ];
+
+      let respostas = [];
+      let paginaAtual = 0;
+
+      const perguntasContainer = document.getElementById("perguntas-container");
+      const btnNext = document.getElementById("btn-next");
+      const resultadoDiv = document.getElementById("resultado");
+      const btnRefazerContainer = document.getElementById(
+        "btn-refazer-container"
+      );
+      const btnRefazer = document.getElementById("btn-refazer");
+
+      function renderPergunta() {
+        const pergunta = perguntas[paginaAtual];
+        perguntasContainer.innerHTML = `
+          <div class="text-lg font-medium text-gray-800 mb-4">${pergunta}</div>
+          <div class="flex gap-6 justify-center">
+            <label class="inline-flex items-center space-x-2">
+              <input type="radio" name="resposta" value="sim" class="accent-blue-600">
+              <span>Sim</span>
+            </label>
+            <label class="inline-flex items-center space-x-2">
+              <input type="radio" name="resposta" value="nao" class="accent-blue-600">
+              <span>Não</span>
+            </label>
+          </div>
+        `;
+
+        btnNext.textContent =
+          paginaAtual === perguntas.length - 1 ? "Ver resultado" : "Próxima";
       }
+
+      btnNext.addEventListener("click", () => {
+        const selected = document.querySelector(
+          'input[name="resposta"]:checked'
+        );
+        if (!selected) {
+          alert("Por favor, selecione uma resposta.");
+          return;
+        }
+
+        respostas[paginaAtual] = selected.value;
+
+        if (paginaAtual < perguntas.length - 1) {
+          paginaAtual++;
+          renderPergunta();
+        } else {
+          mostrarResultado();
+        }
+      });
+
+      btnRefazer.addEventListener("click", () => {
+        respostas = [];
+        paginaAtual = 0;
+        resultadoDiv.classList.add("hidden");
+        btnNext.style.display = "inline-block";
+        btnRefazerContainer.classList.add("hidden");
+        renderPergunta();
+      });
+
+      function mostrarResultado() {
+        let faseIndex = respostas.findIndex((resp) => resp === "nao");
+        if (faseIndex === -1) faseIndex = 8;
+
+        perguntasContainer.innerHTML = "";
+        btnNext.style.display = "none";
+        resultadoDiv.classList.remove("hidden");
+        resultadoDiv.textContent = fases[faseIndex];
+
+        btnRefazerContainer.classList.remove("hidden");
+      }
+
+      renderPergunta(); // inicia
     </script>
   </body>
 </html>
