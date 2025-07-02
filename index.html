@@ -49,17 +49,24 @@
     </div>
 
     <script>
-      const perguntas = [
-        " Já foi feita uma pesquisa aprofundada sobre o que a ciência diz a respeito dessa tecnologia? Os conceitos e fundamentos estão bem consolidados?",
-        " Mesmo que ainda seja uma ideia inicial, existem estudos, artigos ou documentos que mostram que essa tecnologia pode funcionar na prática?",
-        " Foram feitos testes em laboratório ou ambiente controlado para verificar se a tecnologia funciona como o esperado? Os resultados desses testes estão registrados e documentados?",
-        " Foram feitos testes em laboratório ou ambiente controlado para validar a tecnologia de forma aplicada em seu produto tecnológico? Os resultados desses testes estão registrados e documentados?",
-        " Já foram integradas as partes principais da tecnologia em​ um modelo, simulação ou mínimo produto viável, mesmo que ainda não seja o produto final?",
-        " Um protótipo funcional já foi testado em laboratório ou ambiente controlado? Os resultados mostram que ele atende aos requisitos técnicos básicos, como desempenho e tamanho?",
-        " A tecnologia já foi demonstrada em um ambiente que simula as condições reais de uso? Existe documentação técnica sobre esses testes?",
-        " A versão final da tecnologia já foi testada em condições reais de mercado? Os resultados mostram que ela funciona como o esperado?",
-        " A tecnologia já foi colocada para funcionar no ambiente real onde será usada? O produto tecnológico já se encontra em uso no mercado?",
+      /* 1. PERGUNTAS + fase original  ---------------------------------------- */
+      const perguntasOriginais = [
+        "Já foi feita uma pesquisa aprofundada sobre o que a ciência diz a respeito dessa tecnologia? Os conceitos e fundamentos estão bem consolidados?",
+        "Mesmo que ainda seja uma ideia inicial, existem estudos, artigos ou documentos que mostram que essa tecnologia pode funcionar na prática?",
+        "Foram feitos testes em laboratório ou ambiente controlado para verificar se a tecnologia funciona como o esperado? Os resultados desses testes estão registrados e documentados?",
+        "Foram feitos testes em laboratório ou ambiente controlado para validar a tecnologia de forma aplicada em seu produto tecnológico? Os resultados desses testes estão registrados e documentados?",
+        "Já foram integradas as partes principais da tecnologia em​ um modelo, simulação ou mínimo produto viável, mesmo que ainda não seja o produto final?",
+        "Um protótipo funcional já foi testado em laboratório ou ambiente controlado? Os resultados mostram que ele atende aos requisitos técnicos básicos, como desempenho e tamanho?",
+        "A tecnologia já foi demonstrada em um ambiente que simula as condições reais de uso? Existe documentação técnica sobre esses testes?",
+        "A versão final da tecnologia já foi testada em condições reais de mercado? Os resultados mostram que ela funciona como o esperado?",
+        "A tecnologia já foi colocada para funcionar no ambiente real onde será usada? O produto tecnológico já se encontra em uso no mercado?",
       ];
+
+      /* Cada objeto guarda: texto + índice da fase (0‑based) */
+      let perguntas = perguntasOriginais.map((texto, fase) => ({
+        texto,
+        fase,
+      }));
 
       const fases = [
         "FASE 1 - Você está na fase inicial, parabéns pela iniciativa! Para avançar ao próximo estágio, recomenda-se realizar uma revisão bibliográfica em bases como Google Acadêmico, Scielo, entre outros meios.  Busque artigos recentes que descrevem os fundamentos da tecnologia. Sistematize os conceitos principais em um documento e organize as fontes como referências. O objetivo é identificar e compreender os princípios científicos e fundamentos teóricos que sustentam a tecnologia em estudo. ",
@@ -73,7 +80,8 @@
         "FASE 9 - Parabéns! Você alcançou o nível mais avançado de maturidade tecnológica, seu projeto está prestes a ser implementado no mercado. Agora, é fundamental elaborar um plano de implantação estruturado, definindo cronograma, equipe responsável e métricas de sucesso.Realize o lançamento controlado da solução para um grupo restrito de usuários ou clientes estratégicos, e monitore cuidadosamente dados de desempenho, aceitação e impacto gerado.Esses resultados serão essenciais para validar a escalabilidade da tecnologia e orientar os próximos passos rumo à consolidação no mercado.",
       ];
 
-      let respostas = [];
+      /* 2. ESTADO DE EXECUÇÃO ------------------------------------------------- */
+      let respostas = Array(perguntas.length).fill(undefined); // já no tamanho certo
       let paginaAtual = 0;
 
       const perguntasContainer = document.getElementById("perguntas-container");
@@ -84,27 +92,36 @@
       );
       const btnRefazer = document.getElementById("btn-refazer");
 
+      /* 3. FUNÇÕES AUXILIARES -------------------------------------------------- */
+
+      /* Embaralha mantendo o par (texto,fase) coeso */
+      function embaralharArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+
       function renderPergunta() {
-        const pergunta = perguntas[paginaAtual];
+        const { texto } = perguntas[paginaAtual];
         perguntasContainer.innerHTML = `
-          <div class="text-2xl font-medium text-gray-800 mb-4">${pergunta}</div>
-          <div class="flex gap-6 justify-center">
-            <label class="inline-flex items-center space-x-2">
-              <input type="radio" name="resposta" value="sim" class="accent-blue-600">
-              <span class="text-2xl">Sim</span>
-
-            </label>
-            <label class="inline-flex items-center space-x-2">
-              <input type="radio" name="resposta" value="nao" class="accent-blue-600">
-              <span class="text-2xl">Não</span>
-
-            </label>
-          </div>
-        `;
-
+      <div class="text-2xl font-medium text-gray-800 mb-4">${texto}</div>
+      <div class="flex gap-6 justify-center">
+        <label class="inline-flex items-center space-x-2">
+          <input type="radio" name="resposta" value="sim" class="accent-blue-600">
+          <span class="text-2xl">Sim</span>
+        </label>
+        <label class="inline-flex items-center space-x-2">
+          <input type="radio" name="resposta" value="nao" class="accent-blue-600">
+          <span class="text-2xl">Não</span>
+        </label>
+      </div>
+    `;
         btnNext.textContent =
           paginaAtual === perguntas.length - 1 ? "Ver resultado" : "Próxima";
       }
+
+      /* 4. EVENTOS ------------------------------------------------------------- */
 
       btnNext.addEventListener("click", () => {
         const selected = document.querySelector(
@@ -115,7 +132,9 @@
           return;
         }
 
-        respostas[paginaAtual] = selected.value;
+        /* Salva na posição correspondente à fase REAL */
+        const fasePergunta = perguntas[paginaAtual].fase;
+        respostas[fasePergunta] = selected.value;
 
         if (paginaAtual < perguntas.length - 1) {
           paginaAtual++;
@@ -126,24 +145,19 @@
       });
 
       btnRefazer.addEventListener("click", () => {
-        respostas = [];
+        respostas.fill(undefined);
         paginaAtual = 0;
         resultadoDiv.classList.add("hidden");
         btnNext.style.display = "inline-block";
         btnRefazerContainer.classList.add("hidden");
         renderPergunta();
       });
-      // Função para embaralhar o array (algoritmo de Fisher-Yates)
-      function embaralharArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-      }
 
+      /* 5. CÁLCULO DO RESULTADO ----------------------------------------------- */
       function mostrarResultado() {
-        let faseIndex = respostas.findIndex((resp) => resp === "nao");
-        if (faseIndex === -1) faseIndex = 8;
+        /* Índice da ÚLTIMA fase respondida “sim” */
+        let faseIndex = respostas.lastIndexOf("sim");
+        if (faseIndex === -1) faseIndex = 0; // nenhum “sim” → Fase 1
 
         perguntasContainer.innerHTML = "";
         btnNext.style.display = "none";
@@ -152,8 +166,10 @@
 
         btnRefazerContainer.classList.remove("hidden");
       }
-      embaralharArray(perguntas);
-      renderPergunta(); // inicia
+
+      /* 6. INICIALIZAÇÃO ------------------------------------------------------- */
+      embaralharArray(perguntas); // ainda embaralha, mas sem perder o mapeamento
+      renderPergunta();
     </script>
   </body>
 </html>
